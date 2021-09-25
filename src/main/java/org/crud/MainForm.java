@@ -229,6 +229,7 @@ public class MainForm extends JFrame {
                 idTextField.setText(String.valueOf(empleado.getId()));
                 nombreTextField.setText(empleado.getNombre());
                 correoTextField.setText(empleado.getCorreo());
+                puestoTextField.setText(empleado.getPuestoNombre());
                 this.refreshImage();
             } catch (ClassNotFoundException | SQLException e) {
                 logger.error(e.getMessage(), e);
@@ -241,6 +242,7 @@ public class MainForm extends JFrame {
         idTextField.setText("");
         nombreTextField.setText("");
         correoTextField.setText("");
+        puestoTextField.setText("");
         fotoLabel.setIcon(null);
     }
 
