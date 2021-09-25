@@ -7,3 +7,9 @@ para compilar el ejecutable es con maven:
 ```
 mvn package
 ```
+
+para correr el projecto basta con ejecutar el siguiente comando:
+
+```
+java -jar target\java-crud-1.0-SNAPSHOT.jar
+```
