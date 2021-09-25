@@ -70,18 +70,33 @@ public class PuestosDialog extends JDialog {
     private void agregarPuestoClicked(ActionEvent event) {
         String input = JOptionPane.showInputDialog("Agregar puesto");
         if (input != null && !input.isEmpty()) {
-            try {
-                PuestoDAO puestoDAO = new PuestoDAO();
-                Puesto puesto = new Puesto();
-                puesto.setNombre(input);
-                puestoDAO.savePuesto(puesto);                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            if(puestoExiste(input)) {
+                JOptionPane.showMessageDialog(this, "El puesto ya existe", "Error",JOptionPane.ERROR_MESSAGE);
+            }else {
+                try {
+                    PuestoDAO puestoDAO = new PuestoDAO();
+                    Puesto puesto = new Puesto();
+                    puesto.setNombre(input);
+                    puestoDAO.savePuesto(puesto);                
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }                
             }
         }
         this.refresh();
     }
 
+    private boolean puestoExiste(String nombrePuesto)  {
+        try {
+            PuestoDAO puestoDAO = new PuestoDAO();
+            return puestoDAO.puestoExiste(nombrePuesto);            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
     private void refresh() {
         PuestoDAO puestoDAO = new PuestoDAO();
         puestosTableModel.setRowCount(0);

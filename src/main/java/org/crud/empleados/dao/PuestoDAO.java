@@ -25,6 +25,8 @@ public class PuestoDAO {
 
     private static final String DELETE_PUESTO = "delete from puesto where puesto_id = ?";
 
+    private static final String PUESTO_EXISTE = "select count(*) as count from puesto where nombre_puesto = ?";
+
     public List<Puesto> getPuestos() {
         List<Puesto> puestos = new ArrayList<>();
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -92,6 +94,24 @@ public class PuestoDAO {
             throw ex;
         }
         return success;
+    }
+
+    public boolean puestoExiste(String nombrePuesto) throws Exception {
+        boolean existe = false;
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            PreparedStatement psmt = connection.prepareStatement(PUESTO_EXISTE);
+            psmt.setString(1, nombrePuesto);
+            ResultSet resultSet = psmt.executeQuery();
+            int count  = 0;
+            while(resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+            existe = count > 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
+        return existe;
     }
 
 }
